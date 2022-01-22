@@ -147,7 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   reverseDirectionTime: 5
-  moveHorizontal: 0
+  moveHorizontal: 1
 --- !u!95 &8234310479693771107
 Animator:
   serializedVersion: 3
