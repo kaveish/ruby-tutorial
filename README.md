@@ -1,1 +1,3 @@
-# ruby-tutorial
+# Ruby Tutorial
+
+Following Unity Ruby Tutorial
