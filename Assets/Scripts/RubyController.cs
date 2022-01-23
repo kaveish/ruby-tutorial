@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RubyController : MonoBehaviour
 {
+    public GameObject projectilePrefab;
+
     Rigidbody2D rigidbody2d;
     Animator animator;
 
@@ -21,6 +23,9 @@ public class RubyController : MonoBehaviour
     public float timeInvincible = 2.0f;
 
     Vector2 lookDirection = new Vector2(1, 0);
+
+    float projectileCooldown = 0.5f;
+    float lastProjectileFiredTime = 0.0f;
 
     public void ChangeHealth(int amount)
     {
@@ -66,6 +71,9 @@ public class RubyController : MonoBehaviour
         animator.SetFloat("Look Y", lookDirection.y);
         animator.SetFloat("Speed", move.magnitude);
 
+        if (Input.GetAxis("Fire1") > 0)
+            Launch();
+
         if (isInvincible)
         {
             invincibleTimer -= Time.deltaTime;
@@ -80,5 +88,20 @@ public class RubyController : MonoBehaviour
         position.x += speed * horizontal * Time.deltaTime;
         position.y += speed * vertical * Time.deltaTime;
         rigidbody2d.position = position;
+    }
+
+    void Launch()
+    {
+        if (Time.time - lastProjectileFiredTime < projectileCooldown)
+            return;
+
+        GameObject projectileObject = Instantiate(projectilePrefab, rigidbody2d.position + Vector2.up * 0.5f, Quaternion.identity);
+
+        Projectile projectile = projectileObject.GetComponent<Projectile>();
+        projectile.Launch(lookDirection, 300);
+
+        animator.SetTrigger("Launch");
+
+        lastProjectileFiredTime = Time.time;
     }
 }
